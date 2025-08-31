@@ -7,9 +7,18 @@ TEST_JOB_NAME="test_integration_job"
 
 echo "Running SLURM cluster integration tests..."
 
+# Check if container is running
+if ! docker ps --format "table {{.Names}}" | grep -q "^$CONTAINER$"; then
+    echo "Error: $CONTAINER container is not running. Please start the cluster first."
+    exit 1
+fi
+
 # Test 1: Check cluster status
 echo "Test 1: Checking cluster status..."
-docker exec $CONTAINER sinfo > /dev/null
+if ! docker exec "$CONTAINER" sinfo > /dev/null; then
+    echo "Error: Failed to get cluster status from $CONTAINER"
+    exit 1
+fi
 echo "✓ Cluster status check passed"
 
 # Test 2: Submit a simple job
@@ -21,7 +30,7 @@ echo "✓ Job submitted with ID: $JOB_ID"
 echo "Test 3: Waiting for job completion..."
 timeout=60
 while [ $timeout -gt 0 ]; do
-    JOB_STATE=$(docker exec $CONTAINER squeue -j $JOB_ID -h -o "%T" 2>/dev/null || echo "COMPLETED")
+    JOB_STATE=$(docker exec "$CONTAINER" squeue -j "$JOB_ID" -h -o "%T" 2>/dev/null || echo "COMPLETED")
     if [ "$JOB_STATE" = "COMPLETED" ] || [ "$JOB_STATE" = "" ]; then
         break
     fi
@@ -47,7 +56,7 @@ fi
 # Test 5: Test partition mapping
 echo "Test 5: Testing partition mapping..."
 MAPPED_JOB_ID=$(docker exec $CONTAINER sbatch --parsable --partition=core --job-name=mapped_test --wrap="echo 'Mapped job'" | head -1)
-ACTUAL_PARTITION=$(docker exec $CONTAINER squeue -j $MAPPED_JOB_ID -h -o "%P" 2>/dev/null || echo "long")
+ACTUAL_PARTITION=$(docker exec "$CONTAINER" squeue -j "$MAPPED_JOB_ID" -h -o "%P" 2>/dev/null || echo "long")
 if [ "$ACTUAL_PARTITION" = "long" ]; then
     echo "✓ Partition mapping test passed"
 else
@@ -57,7 +66,7 @@ fi
 
 # Test 6: Check remapping comment
 echo "Test 6: Checking remapping comment..."
-JOB_COMMENT=$(docker exec $CONTAINER scontrol show job $MAPPED_JOB_ID | grep "Comment=" | sed 's/.*Comment=//' || echo "")
+JOB_COMMENT=$(docker exec "$CONTAINER" scontrol show job "$MAPPED_JOB_ID" | grep "Comment=" | sed 's/.*Comment=//' || echo "")
 if echo "$JOB_COMMENT" | grep -q "Remapped from core to long"; then
     echo "✓ Remapping comment test passed"
 else

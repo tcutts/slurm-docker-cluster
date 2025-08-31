@@ -10,7 +10,7 @@ then
 
     {
         . /etc/slurm/slurmdbd.conf
-        until echo "SELECT 1" | mysql -h $StorageHost -u$StorageUser -p$StoragePass 2>&1 > /dev/null
+        until echo "SELECT 1" | mysql -h "$StorageHost" -u"$StorageUser" -p"$StoragePass" > /dev/null 2>&1
         do
             echo "-- Waiting for database to become active ..."
             sleep 2
