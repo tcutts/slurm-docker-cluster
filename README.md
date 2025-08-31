@@ -35,7 +35,7 @@ This setup consists of the following containers:
 ### Persistent Volumes:
 
 - `etc_munge`: Mounted to `/etc/munge`
-- `etc_slurm`: Mounted to `/etc/slurm`
+- `etc`: Bind mounted to `/etc/slurm`
 - `slurm_jobdir`: Mounted to `/data`
 - `var_lib_mysql`: Mounted to `/var/lib/mysql`
 - `var_log_slurm`: Mounted to `/var/log/slurm`
@@ -158,10 +158,9 @@ docker compose down -v
 
 ## ⚙️ Advanced Configuration
 
-You can modify Slurm configurations (`slurm.conf`, `slurmdbd.conf`) on the fly without rebuilding the containers. Just run:
+You can modify Slurm configurations (`slurm.conf`, `slurmdbd.conf`) on the fly without rebuilding the containers. Just edit them and restart the containers:
 
 ```bash
-./update_slurmfiles.sh slurm.conf slurmdbd.conf
 docker compose restart
 ```
 
