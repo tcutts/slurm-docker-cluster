@@ -91,7 +91,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./persistent/etc_slurm
+      device: ./etc
   slurm_jobdir:
   var_lib_mysql:
   var_log_slurm:

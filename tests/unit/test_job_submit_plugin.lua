@@ -7,7 +7,7 @@ slurm = {
 }
 
 -- Load the plugin
-dofile("../../plugins/job_submit.lua")
+dofile("../../etc/job_submit.lua")
 
 -- Test cases
 local function test_core_partition_mapping()
