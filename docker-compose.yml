@@ -60,8 +60,6 @@ services:
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
-    expose:
-      - "6818"
     depends_on:
       - "slurmctld"
     networks:
@@ -77,8 +75,6 @@ services:
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
-    expose:
-      - "6818"
     depends_on:
       - "slurmctld"
     networks:
