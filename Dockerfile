@@ -1,10 +1,10 @@
-FROM rockylinux:8
+FROM rockylinux:8.9
 
 LABEL org.opencontainers.image.source="https://github.com/giovtorres/slurm-docker-cluster" \
-      org.opencontainers.image.title="slurm-docker-cluster" \
-      org.opencontainers.image.description="Slurm Docker cluster on Rocky Linux 8" \
-      org.label-schema.docker.cmd="docker-compose up -d" \
-      maintainer="Giovanni Torres"
+    org.opencontainers.image.title="slurm-docker-cluster" \
+    org.opencontainers.image.description="Slurm Docker cluster on Rocky Linux 8" \
+    org.label-schema.docker.cmd="docker-compose up -d" \
+    maintainer="Giovanni Torres"
 
 RUN set -ex \
     && yum makecache \
@@ -12,26 +12,26 @@ RUN set -ex \
     && yum -y install dnf-plugins-core \
     && yum config-manager --set-enabled powertools \
     && yum -y install \
-       wget \
-       bzip2 \
-       perl \
-       gcc \
-       gcc-c++\
-       git \
-       gnupg \
-       make \
-       munge \
-       munge-devel \
-       python3-devel \
-       python3-pip \
-       python3 \
-       mariadb-server \
-       mariadb-devel \
-       psmisc \
-       bash-completion \
-       vim-enhanced \
-       http-parser-devel \
-       json-c-devel \
+    wget \
+    bzip2 \
+    perl \
+    gcc \
+    gcc-c++\
+    git \
+    gnupg \
+    make \
+    munge \
+    munge-devel \
+    python3-devel \
+    python3-pip \
+    python3 \
+    mariadb-server \
+    mariadb-devel \
+    psmisc \
+    bash-completion \
+    vim-enhanced \
+    http-parser-devel \
+    json-c-devel \
     && yum clean all \
     && rm -rf /var/cache/yum
 
@@ -57,7 +57,7 @@ RUN set -x \
     && git clone -b ${SLURM_TAG} --single-branch --depth=1 https://github.com/SchedMD/slurm.git \
     && pushd slurm \
     && ./configure --enable-debug --prefix=/usr --sysconfdir=/etc/slurm \
-        --with-mysql_config=/usr/bin  --libdir=/usr/lib64 \
+    --with-mysql_config=/usr/bin  --libdir=/usr/lib64 \
     && make install \
     && install -D -m644 etc/cgroup.conf.example /etc/slurm/cgroup.conf.example \
     && install -D -m644 etc/slurm.conf.example /etc/slurm/slurm.conf.example \
@@ -68,21 +68,21 @@ RUN set -x \
     && groupadd -r --gid=990 slurm \
     && useradd -r -g slurm --uid=990 slurm \
     && mkdir /etc/sysconfig/slurm \
-        /var/spool/slurmd \
-        /var/run/slurmd \
-        /var/run/slurmdbd \
-        /var/lib/slurmd \
-        /var/log/slurm \
-        /data \
+    /var/spool/slurmd \
+    /var/run/slurmd \
+    /var/run/slurmdbd \
+    /var/lib/slurmd \
+    /var/log/slurm \
+    /data \
     && touch /var/lib/slurmd/node_state \
-        /var/lib/slurmd/front_end_state \
-        /var/lib/slurmd/job_state \
-        /var/lib/slurmd/resv_state \
-        /var/lib/slurmd/trigger_state \
-        /var/lib/slurmd/assoc_mgr_state \
-        /var/lib/slurmd/assoc_usage \
-        /var/lib/slurmd/qos_usage \
-        /var/lib/slurmd/fed_mgr_state \
+    /var/lib/slurmd/front_end_state \
+    /var/lib/slurmd/job_state \
+    /var/lib/slurmd/resv_state \
+    /var/lib/slurmd/trigger_state \
+    /var/lib/slurmd/assoc_mgr_state \
+    /var/lib/slurmd/assoc_usage \
+    /var/lib/slurmd/qos_usage \
+    /var/lib/slurmd/fed_mgr_state \
     && chown -R slurm:slurm /var/*/slurm* \
     && /sbin/create-munge-key
 
