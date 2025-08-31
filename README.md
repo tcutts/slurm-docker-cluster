@@ -15,6 +15,7 @@ To get up and running with Slurm in Docker, make sure you have the following too
 
 - **[Docker](https://docs.docker.com/get-docker/)**
 - **[Docker Compose](https://docs.docker.com/compose/install/)**
+- **Lua (available from [Homebrew](https://brew.sh/))** needed if you want do develop and test plugins
 
 Clone the repository:
 
