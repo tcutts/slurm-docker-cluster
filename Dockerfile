@@ -10,7 +10,9 @@ RUN set -ex \
     && yum makecache \
     && yum -y update \
     && yum -y install dnf-plugins-core \
-    && yum config-manager --set-enabled powertools \
+    && yum config-manager --set-enabled powertools
+
+RUN set -ex \
     && yum -y install \
     wget \
     bzip2 \
@@ -32,6 +34,10 @@ RUN set -ex \
     vim-enhanced \
     http-parser-devel \
     json-c-devel \
+    lua \
+    lua-devel \
+    man-db \
+    procps-ng \
     && yum clean all \
     && rm -rf /var/cache/yum
 
@@ -88,6 +94,9 @@ RUN set -x \
 
 COPY slurm.conf /etc/slurm/slurm.conf
 COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
+COPY cgroup.conf /etc/slurm/cgroup.conf
+COPY plugins/*.lua /etc/slurm
+
 RUN set -x \
     && chown slurm:slurm /etc/slurm/slurmdbd.conf \
     && chmod 600 /etc/slurm/slurmdbd.conf

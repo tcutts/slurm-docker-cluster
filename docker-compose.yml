@@ -87,6 +87,11 @@ services:
 volumes:
   etc_munge:
   etc_slurm:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./persistent/etc_slurm
   slurm_jobdir:
   var_lib_mysql:
   var_log_slurm:
