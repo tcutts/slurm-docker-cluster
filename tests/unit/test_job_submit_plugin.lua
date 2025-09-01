@@ -41,7 +41,7 @@ local function test_user_specific_mapping()
     local job_desc = {partition = "gpu", user_name = "user1"}
     local result = slurm_job_submit(job_desc, {}, 1000)
     
-    assert(job_desc.partition == "long", "User1 should be mapped from gpu to long")
+    assert(job_desc.partition == "long-gpu", "User1 should be mapped from gpu to long-gpu")
     assert(result == slurm.SUCCESS, "Function should return SUCCESS")
     print("✓ User-specific mapping test passed")
 end
