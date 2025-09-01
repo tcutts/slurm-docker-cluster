@@ -1,8 +1,7 @@
 -- Queue mapping configuration
 local queue_map = {
     ["core"] = {target = "long", exempt_users = {}, map_users = {}},
-    ["gpu"] = {target = "long", exempt_users = {"gpuuser"}, map_users = {"user1", "user2"}},
-    ["short"] = {target = "long", exempt_users = {}, map_users = {}}
+    ["gpu"] = {target = "long-gpu", exempt_users = {"gpuuser"}, map_users = {"user1", "user2"}},
 }
 
 -- Helper function to check if user is exempt
